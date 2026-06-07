@@ -1,0 +1,88 @@
+teams = {
+    "Arsenal": {"attack": 8, "defense": 10, "midfield": 10},
+    "Manchester City": {"attack": 10, "defense": 9, "midfield": 10},
+    "Manchester United": {"attack": 8, "defense": 9, "midfield": 7},
+    "Liverpool": {"attack": 8, "defense": 8, "midfield": 7},
+    "Aston Villa": {"attack": 7, "defense": 7, "midfield": 8},
+    "Brighton": {"attack": 7, "defense": 8, "midfield": 7},
+    "Bornemouth": {"attack": 8, "defense": 6, "midfield": 7},
+    "Chelsea": {"attack": 8, "defense": 7, "midfield": 7},
+    "Brentford": {"attack": 7, "defense": 7, "midfield": 6},
+    "Fulham": {"attack": 7, "defense": 7, "midfield": 7},
+    "Everton": {"attack": 6, "defense": 7, "midfield": 7},
+    "Sunderland": {"attack": 6, "defense": 7, "midfield": 7},
+    "Crystal Palace": {"attack": 6, "defense": 8, "midfield": 7},
+    "Leeds United": {"attack": 7, "defense": 6, "midfield": 7},
+    "Newcastle United": {"attack": 7, "defense": 6, "midfield": 8},
+    "Nottingham Forest": {"attack": 6, "defense": 7, "midfield": 7},
+    "West Ham United": {"attack": 6, "defense": 5, "midfield": 6},
+    "Tottenham Hotspur": {"attack": 5, "defense": 5, "midfield": 6},
+    "Burnley": {"attack": 5, "defense": 4, "midfield": 5},
+    "Wolves": {"attack": 4, "defense": 4, "midfield": 4},
+}
+
+import random
+
+class Match:
+    def __init__(self,team_1_name, team_1_stats, team_2_name, team_2_stats):
+       self.team_1_name = team_1_name
+       self.team_1_stats = team_1_stats
+       self.team_2_name = team_2_name
+       self.team_2_stats = team_2_stats
+
+    def play(self):
+       t1_score = 0
+       t2_score = 0
+       if self.team_1_stats["attack"] > self.team_2_stats["defense"]:
+          t1_score += 1
+       elif self.team_1_stats["attack"] < self.team_2_stats["defense"]:
+          t2_score += 1
+          
+       if self.team_1_stats["defense"] > self.team_2_stats["attack"]:
+          t1_score += 1
+       elif self.team_1_stats["defense"] < self.team_2_stats["attack"]:
+          t2_score += 1
+           
+       if self.team_1_stats["midfield"] > self.team_2_stats["midfield"]:
+          t1_score += 1
+       elif self.team_1_stats["midfield"] < self.team_2_stats["midfield"]:
+          t2_score += 1
+          
+       if t1_score > t2_score:
+          league_standings[self.team_1_name]["points"] += 3
+          league_standings[self.team_1_name]["wins"] += 1
+          league_standings[self.team_2_name]["losses"] += 1
+       elif t1_score == t2_score:
+          league_standings[self.team_2_name]["points"] += 1
+          league_standings[self.team_1_name]["points"] += 1
+          league_standings[self.team_2_name]["draws"] += 1
+          league_standings[self.team_1_name]["draws"] += 1
+       else:
+          league_standings[self.team_2_name]["points"] += 3
+          league_standings[self.team_2_name]["wins"] += 1
+          league_standings[self.team_1_name]["losses"] += 1
+    
+league_standings = {
+   team: {"wins": 0, "draws": 0, "losses": 0, "points": 0}
+   for team in teams
+}
+
+game_week = input("How many game weeks would you like to simulate: ")
+
+for i in range(int(game_week)):
+   game_teams = list(teams.keys())
+   for i in range(10):
+      game = random.sample(game_teams, 2)
+      team_1_name = game[0]
+      team_1_stats = teams[team_1_name]
+      team_2_name = game[1]
+      team_2_stats = teams[team_2_name]
+      game = Match(team_1_name, team_1_stats, team_2_name, team_2_stats)
+      game.play()
+      game_teams.remove(team_1_name)
+      game_teams.remove(team_2_name)
+   
+final_table = sorted(league_standings.items(), key=lambda team_data: team_data[1]["points"], reverse = True)
+for team in final_table:
+   enumerate(final_table)
+   \n
