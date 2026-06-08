@@ -58,23 +58,29 @@ class Player:
          self.is_injured = True
          self.injury_proneness += 1
 
-      def injury_count(self):
-         if self.is_injury:
-            self.filler += 1
+   def injury_counter(self):
+      if self.is_injured:
+         self.injury_time -= 1
+
+         if self.injury_time <= 0:
+            self.is_injured = False
+            self.injury_time = 0
           
              
-      def current_stats(self):
-         if self.is_injured:
-            if self.injury_time <= 3:
-               return {"attack": name["attack"/2], "defense": name["defense"/2], "midfield": name["midfield"/2]}
-            else:
-               return {"attack": 0, "defense": 0, "midfield": 0}
+   def current_stats(self):
+      if self.is_injured:
+         if self.injury_time <= 3:
+            return {"attack": name[self.attack//2], "defense": name[self.defense//2], "midfield": name[self.midfield//2]}
+         elif self.injury_time <= 8:
+            return {"attack": name[self.attack//3], "defense": name[self.defense//3], "midfield": name[self.midfield//3]}
+         elif self.injury_time <= 15:
+            return {"attack": 0, "defense": 0, "midfield": 0}
          
-         return {
+      return {
          "attack": self.attack,
          "defense": self.defense,
          "midfield": self.midfield
-         }
+      }
           
              
 class Match:
